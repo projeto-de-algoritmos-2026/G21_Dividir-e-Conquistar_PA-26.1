@@ -57,7 +57,6 @@ class DragAndDropManager {
         const targetItem = event.currentTarget;
 
         if (targetItem !== this.draggedElement) {
-            // Detectar posição e reorganizar
             const allItems = Array.from(this.sortableList.querySelectorAll('.draggable-item'));
             const draggedIndex = allItems.indexOf(this.draggedElement);
             const targetIndex = allItems.indexOf(targetItem);
@@ -68,7 +67,6 @@ class DragAndDropManager {
                 targetItem.parentNode.insertBefore(this.draggedElement, targetItem);
             }
 
-            // Atualizar referência de items
             this.items = Array.from(this.sortableList.querySelectorAll('.draggable-item'));
         }
 
@@ -78,30 +76,24 @@ class DragAndDropManager {
 
     handleDragEnd(event) {
         event.currentTarget.classList.remove('dragging');
-        
-        // Limpar estilos de drop zone
+
         this.items.forEach(item => {
             item.style.borderTop = '';
         });
     }
 
-    /**
-     * Retorna o ranking atual ordenado pelo usuário
-     * @returns {Array<number>} Array com os data-ids na ordem definida
-     */
+
     getCurrentRanking() {
         return Array.from(this.sortableList.querySelectorAll('.draggable-item')).map(
             item => parseInt(item.dataset.id)
         );
     }
 
-    /**
-     * Reseta a lista para a ordem original
-     */
+
     resetRanking() {
         const originalOrder = [1, 2, 3, 4, 5];
         const items = Array.from(this.sortableList.querySelectorAll('.draggable-item'));
-        
+
         originalOrder.forEach(id => {
             const item = items.find(i => parseInt(i.dataset.id) === id);
             if (item) {
@@ -113,7 +105,6 @@ class DragAndDropManager {
     }
 }
 
-// Inicializar quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
     window.dragDropManager = new DragAndDropManager();
 });

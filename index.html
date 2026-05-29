@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Recomendação de Afinidade</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Fonte Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <header>
         <div class="header-content">
@@ -17,7 +18,6 @@
     </header>
 
     <main class="container">
-        <!-- Coluna 1: Modo Didático -->
         <section class="column" id="modo-didatico">
             <div class="column-header">
                 <h2>Modo Didático</h2>
@@ -25,7 +25,6 @@
             </div>
             <p>Ordene os perfis por preferência (Arraste e Solte para definir seu ranking pessoal):</p>
             <ul id="draggable-list" class="sortable-list">
-                <!-- Itens serão gerados/controlados pelo JS -->
                 <li class="draggable-item" draggable="true" data-id="1">
                     <span class="drag-handle">⋮⋮</span> Perfil A (Música, Cinema)
                 </li>
@@ -44,14 +43,13 @@
             </ul>
         </section>
 
-        <!-- Coluna 2: Modo Estresse -->
         <section class="column" id="modo-estresse">
             <div class="column-header">
                 <h2>Modo Estresse</h2>
                 <span class="badge alert">Benchmark</span>
             </div>
             <p>Compare o desempenho dos algoritmos em larga escala (50.000 perfis vs vetor de teste).</p>
-            
+
             <div class="controls">
                 <button id="btn-run-benchmark" class="btn-primary">
                     <span class="btn-text">Executar Benchmark</span>
@@ -61,12 +59,12 @@
 
             <div class="results-panel">
                 <h3>Resultados da Análise</h3>
-                
+
                 <div class="result-card match-card">
                     <h4>Melhor Match (Menos Inversões)</h4>
                     <p id="perfect-match-result">Aguardando execução...</p>
                 </div>
-                
+
                 <div class="metrics-grid">
                     <div class="result-card metric">
                         <h4>Força Bruta &Theta;(n&sup2;)</h4>
@@ -83,4 +81,5 @@
 
     <script src="ui.js"></script>
 </body>
+
 </html>
