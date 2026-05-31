@@ -54,9 +54,31 @@ const Algorithms = (() => {
         return inversions;
     };
 
+    const sortAndCount = (array, temp, left, right) => {
+        if (left >= right) {
+            return 0;
+        }
+
+        const mid = Math.floor((left + right) / 2);
+        let inversions = 0;
+
+        inversions += sortAndCount(array, temp, left, mid);
+        inversions += sortAndCount(array, temp, mid + 1, right);
+        inversions += mergeAndCount(array, temp, left, mid, right);
+
+        return inversions;
+    };
+
+    const countInversionsDivideAndConquer = (array) => {
+        const workingArray = array.slice();
+        const temp = new Array(workingArray.length);
+        return sortAndCount(workingArray, temp, 0, workingArray.length - 1);
+    };
+
     return {
         countInversionsBruteForce,
-        mergeAndCount
+        mergeAndCount,
+        countInversionsDivideAndConquer
     };
 })();
 
