@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     timeDivideConquer.textContent = `${timeDC} ms`;
                     timeBruteForce.textContent = `${timeBF} ms`;
 
-                    // Commit 8: Plotagem visual do comparativo
                     const maxTime = Math.max(timeBF, timeDC);
                     setTimeout(() => {
                         barBF.style.width = `${(timeBF / maxTime) * 100}%`;
@@ -90,9 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     });
 
-    // ==========================================
-    // Commit 11: Modo Match (Estilo Tinder)
-    // ==========================================
+
     const btnFindMatches = document.getElementById('btn-find-matches');
     const matchesList = document.getElementById('matches-list');
 
@@ -104,12 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
         btnFindMatches.addEventListener('click', () => {
             btnFindMatches.disabled = true;
             btnFindMatches.textContent = 'Procurando...';
-            
+
             setTimeout(() => {
-                // 1. Obter ranking atual do usuário (vetor com os data-ids, ex: [2, 1, 3, 5, 4])
                 const userRanking = window.dragDropManager.getCurrentRanking();
-                
-                // 2. Gerar população local de 1000 pessoas, cada uma com ranking de tamanho 5
+
                 const localPopulation = window.dataGenerator.generatePopulation({
                     size: 1000,
                     itemCount: 5,
@@ -117,18 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     noiseRatio: 0.4
                 });
 
-                // 3. Preparar ranking relativo para calcular inversões cruzadas
                 const userMap = new Map();
                 userRanking.forEach((item, index) => userMap.set(item, index));
 
                 const scoredProfiles = localPopulation.map(profile => {
-                    // Mapeia o ranking da pessoa fictícia para a base do usuário
                     const relativeRanking = profile.ranking.map(item => userMap.get(item));
-                    
-                    // Conta inversões com Dividir e Conquistar O(n log n)
+
                     const inversions = window.algorithms.countInversionsDivideAndConquer(relativeRanking);
-                    
-                    // Afinidade: máximo de inversões possíveis em n=5 é 10.
+
                     const maxInversions = 10;
                     const affinity = Math.max(0, 100 - (inversions / maxInversions) * 100);
 
@@ -140,18 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                 });
 
-                // 4. Ordenar perfis pelas menores inversões
                 scoredProfiles.sort((a, b) => a.inversions - b.inversions);
-                
-                // 5. Pegar os Top 3
-                const top3 = scoredProfiles.slice(0, 3);
 
-                // 6. Atualizar a UI
-                matchesList.innerHTML = ''; // limpa o estado vazio
-                
+                const top3 = scoredProfiles.slice(0, 3);
+                matchesList.innerHTML = '';
+
                 top3.forEach((match, index) => {
                     const avatars = ['👩🏻‍🦰', '👨🏽‍🦱', '👱🏼‍♀️'];
-                    
+
                     const cardHTML = `
                         <div class="match-card tinder-card">
                             <div class="tinder-avatar">${avatars[index]}</div>
