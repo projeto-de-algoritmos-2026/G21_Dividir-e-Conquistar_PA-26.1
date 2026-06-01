@@ -52,4 +52,4 @@ Portanto, não há necessidade de gerenciadores de pacote como npm ou yarn.
 
 ## Vídeo de apresentação
 
-*(Link para o vídeo será inserido aqui na entrega final)*
+![Apresentação - Vídeo no Youtube](https://youtu.be/4jdpHr0ok9g)
