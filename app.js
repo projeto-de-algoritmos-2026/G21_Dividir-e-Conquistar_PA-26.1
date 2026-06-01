@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeBruteForce = document.getElementById('time-brute-force');
     const timeDivideConquer = document.getElementById('time-divide-conquer');
 
+    const barBF = document.getElementById('bar-brute-force');
+    const barDC = document.getElementById('bar-divide-conquer');
+
     // Mapeia o ranking do perfil para os índices do vetor de teste
     const createRelativeRanking = (profileRanking, testRanking) => {
         const testMap = new Map();
@@ -19,14 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
         timeBruteForce.textContent = '-- ms';
         timeDivideConquer.textContent = '-- ms';
 
-        // Timeout curto para permitir que a thread atualize a UI antes do gargalo
+        // Reseta o gráfico
+        if (barBF) barBF.style.width = '0%';
+        if (barDC) barDC.style.width = '0%';
+
         setTimeout(() => {
 
-            // 1. Gerar os dados em memória (DataGenerator)
             const population = window.dataGenerator.generatePopulation();
             const testVector = window.dataGenerator.generateStressTestVector();
 
-            // Preparar a base convertendo para o ranking relativo ao vetor de teste
             const relativeRankings = population.map(profile => ({
                 id: profile.id,
                 ranking: createRelativeRanking(profile.ranking, testVector)
@@ -41,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const startDC = performance.now();
                 for (let i = 0; i < relativeRankings.length; i++) {
-                    // countInversionsDivideAndConquer já faz a cópia internamente
                     const inv = window.algorithms.countInversionsDivideAndConquer(relativeRankings[i].ranking);
                     if (inv < minInversionsDC) {
                         minInversionsDC = inv;
@@ -67,10 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const endBF = performance.now();
                     const timeBF = (endBF - startBF).toFixed(2);
 
-                    // Deixa os valores engatilhados na UI (O Commit 8 irá focar na exibição)
                     resultMatch.innerHTML = `<strong>${bestMatchDC}</strong> (${minInversionsDC} inv.)`;
                     timeDivideConquer.textContent = `${timeDC} ms`;
                     timeBruteForce.textContent = `${timeBF} ms`;
+
+                    // Commit 8: Plotagem visual do comparativo
+                    const maxTime = Math.max(timeBF, timeDC);
+                    setTimeout(() => {
+                        barBF.style.width = `${(timeBF / maxTime) * 100}%`;
+                        const dcPercentage = Math.max((timeDC / maxTime) * 100, 1); // 1% mínimo para visualização
+                        barDC.style.width = `${dcPercentage}%`;
+                    }, 50);
 
                     btnRun.disabled = false;
                     btnRun.querySelector('.btn-text').textContent = 'Executar Benchmark';
