@@ -26,10 +26,13 @@ Para identificar a afinidade, o algoritmo calcula o número de inversões matem�
 *(Interface onde o usuário ordena os hobbies e encontra perfis compatíveis)*
 
 ![Modo Didático](assets/modo-didatico.png)  
+
 ![Matches Encontrados](assets/matches.png)
 
 ### 2. Modo Estresse (Benchmark)
 *(Prova matemática da superioridade do algoritmo O(n log n) sobre a Força Bruta processando 50.000 perfis)*
+
+![Modo Estresse](assets/modo-estresse.png)
 
 ![Benchmark](assets/benchmark.png)
 
